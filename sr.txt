@@ -1,0 +1,11 @@
+/say  9>4§WËÊt rËvëñGÊ In Progress...
+/mode # +stnmkl <<||DeSyNCH||>> $nick(0,#) 
+/topic # [§WËÊt rËvëñGÊ] - ((w4®l0RÐz Ðé§¥ÑÇhîÑ Ðî§ £âmê ÇHåñ)) 
+/raw -q mode # +bbbbbb *!*@*.a *!*@*.b *!*@*.c *!*@*.d *!*@*.e *!*@*.f
+/raw -q mode # +bbbbbb *!*@*.g *!*@*.h *!*@*.i *!*@*.j *!*@*.k *!*@*.l
+/raw -q mode # +bbbbbb *!*@*.m *!*@*.n *!*@*.o *!*@*.p *!*@*.q *!*@*.r
+/raw -q mode # +bbbbbb *!*@*.s *!*@*.t *!*@*.u *!*@*.v *!*@*.w *!*@*.x
+/raw -q mode # +bbbbbb *!*@*.y *!*@*.z *!*@*.1 *!*@*.2 *!*@*.3 *!*@*.4
+/raw -q mode # +bbbbbb *!*@*.5 *!*@*.6 *!*@*.7 *!*@*.8 *!*@*.9 *!*@*.0
+/mode # -k <<||DeSyNCH||>> | mode # +k <DeSyNCHeD_SubZ> 
+/say 9>4§WËÊt rËvëñGÊ Completed...

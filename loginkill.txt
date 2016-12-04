@@ -1,0 +1,23 @@
+/echo -a 4::Attempting Mass Login::
+/say ~login lamer69 
+/say !login lamer69
+/say !login hackuk666
+/say !LOGIN j0j0
+/say !login d0s
+/say !@login hillo23
+/say .login mafia
+/say !@login hillo12
+/say !login d0steam
+/say !login hakd
+/say !login hackuk666
+/say .login hillo56
+/say .login j0j0
+/say !@login app1e
+/say .remove
+/say ~uninstall
+/say ~remove
+/say !@remove
+/say !remove
+/say !uninstall
+/say .die
+/say !KILLBOT

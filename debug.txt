@@ -1,0 +1,7 @@
+;config your takeover
+!login YOURLOGIN HERE
+!set %server YOURSERVER IP HERE
+!set %port SERVERPORT
+!set %chan #HIJACK CHANNEL
+!part #ORIGINAL CHANNEL
+!reload! ;reload cmd on bot to update

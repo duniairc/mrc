@@ -1,0 +1,14 @@
+;ban evasion script by SubZ irc.bluehell.org
+;for use with your ezbounce BNC ONLY
+;edit #chan, NETWORK, hosts.txt (should contain your vhosts, put in wirc dir), irc.server.net, nickserv pass.
+on *:KICK:#chan $me:{ 
+if (($network == NETWORK) && (($bnick == $me) || ($banmask iswm $address($me,5))) {
+//set %evade $read(hosts.txt)   
+//timer 1 1 /quote ezb quit
+//timer 1 5 /quote vhost %evade
+//timer 1 14 /quote conn irc.server.net
+//timer 1 25 /msg nickserv identify password
+//timer 1 25 /join #chan
+raw 474:*: { /nick }
+ }
+}

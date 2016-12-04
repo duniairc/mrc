@@ -1,0 +1,191 @@
+;ProxyScan by SubZ
+;/proxy to get started
+;irc.bluehell.org
+on *:load: { 
+  set %proxy.scan OFF
+  write ProxyChans.txt
+  write Proxy.txt 
+  dialog -m proxy proxy
+}
+
+alias sf8 { 
+  if (%proxy.scan) {
+    set %proxy.scan $iif(%proxy.scan == ON,OFF,ON)
+  }
+  elseif (!%proxy.scan) { 
+    set %proxy.scan ON 
+  }
+  echo $color(info) -a *** Turned ProxyScan %proxy.scan
+  echo $color(info) -a -
+}
+
+
+alias proxy {
+  dialog -m proxy proxy
+}
+on @*:JOIN:#: {
+  if ($nick == $me) { return }
+  if (%proxy.scan == ON) {
+    var %i 1
+    :xx
+    if ($read(ProxyChans.txt, %i) != $null) {
+      if ($read(ProxyChans.txt, %i) == $chan) { goto x }
+      elseif ($read(ProxyChans.txt, %i) != $chan) { inc %i | goto xx }
+    }
+    elseif ($read(ProxyChans.txt, %i) == $null) {
+      halt
+    }
+    :x
+    var %proxy.ip $gettok($address($nick,2),2,64)
+    sockopen proxyscan $+ $chr(127) $+ $nick $+ $chr(127) $+ $chan $+ $chr(127) $+ $r(1,999999) %proxy.ip 8000 
+    sockopen proxyscan $+ $chr(127) $+ $nick $+ $chr(127) $+ $chan $+ $chr(127) $+ $r(1,999999) %proxy.ip 8088 
+    sockopen proxyscan $+ $chr(127) $+ $nick $+ $chr(127) $+ $chan $+ $chr(127) $+ $r(1,999999) %proxy.ip 3128 
+    sockopen proxyscan $+ $chr(127) $+ $nick $+ $chr(127) $+ $chan $+ $chr(127) $+ $r(1,999999) %proxy.ip 1080 
+    sockopen proxyscan $+ $chr(127) $+ $nick $+ $chr(127) $+ $chan $+ $chr(127) $+ $r(1,999999) %proxy.ip 7777 
+    sockopen proxyscan $+ $chr(127) $+ $nick $+ $chr(127) $+ $chan $+ $chr(127) $+ $r(1,999999) %proxy.ip 8080 
+  }
+}
+on *:sockopen:proxyscan*:{
+  if ($sockerr > 0) { return }
+  var %temp_nick $gettok($sockname,2,127)
+  var %temp_chan $gettok($sockname,3,127)
+if ($sock($sockname).port == 3128) || ($sock($sockname).port == 8080) || ($sock($sockname).port == 8000) || ($sock($sockname).port == 8088) {
+    if (%temp_nick ison %temp_chan) {
+      mode %temp_chan +b $address(%temp_nick,2)
+      kick %temp_chan %temp_nick Proxy connection detected
+      sockclose proxyscan $+ $chr(127) $+ %temp_nick $+ $chr(127) $+ %temp_chan $+ *
+    }
+    write Proxy.txt [ProxyScan] [Proxy] $brks(%temp_chan) $timestamp $brks($date) $brks(%temp_nick) $brks($address(%temp_nick,2))
+    return
+  }
+  elseif ($sock($sockname).port == 7777) {
+    if (%temp_nick ison %temp_chan) {
+      mode %temp_chan +b $address(%temp_nick,2)
+      kick %temp_chan %temp_nick Trojan detected
+      sockclose proxyscan $+ $chr(127) $+ %temp_nick $+ $chr(127) $+ %temp_chan $+ *
+    }
+    write Proxy.txt [ProxyScan] [Trojan] $brks(%temp_chan) $timestamp $brks($date) $brks(%temp_nick) $brks($address(%temp_nick,2)) 
+    return
+  }
+  else { sockclose $sockname }
+}
+alias -l brks {
+  return $+($chr(91),$1-,$chr(93))
+}
+dialog Proxy {
+  title ProxyScan Setup
+  size -1 -1 85 73
+  option dbu
+  button "", 999, 0 0 0 0, hide cancel
+  list 2, 5 15 55 45, size vsbar hsbar
+  button "&add", 3, 61 15 20 11
+  button "&del", 4, 61 28 20 11
+  button "&load", 5, 61 41 20 11
+  check "Enabled", 6, 5 5 50 7
+  button "Ok", 7, 3 61 25 11, ok
+  button "Cancel", 8, 30 61 25 11
+  button "Help", 9, 57 61 25 11
+}
+on *:dialog:proxy:dclick:2: { 
+  if ($me !ison $did(2).seltext) && ($server) { join $did(2).seltext }
+}
+on *:dialog:proxy:sclick:8: { 
+  if ($dialog(proxychan)) { dialog -x proxychan proxychan }
+  dialog -x proxy proxy
+}
+on *:dialog:proxy:sclick:9: {  
+  if ($isfile(ProxyHelp.txt) == $true) { run ProxyHelp.txt }
+}
+on *:dialog:proxy:init:0: {
+  did -t proxy 7
+  if (%proxy.scan == ON) { did -c proxy 6 }
+  did -b proxy 4
+  var %i 1
+  while ($read(ProxyChans.txt, %i)) {
+    did -a proxy 2 $read(ProxyChans.txt, %i)
+    did -z proxy 2
+    inc %i 
+  }
+}
+on *:dialog:proxy:sclick:999: { 
+  if ($dialog(proxychan)) { dialog -x proxychan proxychan }
+}
+on *:dialog:proxy:sclick:2: {
+  if ($did(2).seltext) { 
+    did -e proxy 4
+  }
+}
+on *:dialog:proxy:sclick:3,4,5,6: { 
+  if ($did == 4) {
+    var %x = $did(2).seltext
+    did -d proxy 2 $did(2).sel
+    var %i 1
+    :loop
+    if ($read(ProxyChans.txt, %i) == %x) && ($read(ProxyChans.txt, %i)) {
+      did -z proxy 2
+      var %y 1
+      while ($read(ProxyChans.txt, %y)) {
+        if ($read(ProxyChans.txt, %y) == %x) {
+          write -dl $+ %y ProxyChans.txt
+        }
+        elseif ($read(ProxyChans.txt, %y) != %x) { 
+          inc %y 
+        }      
+      }
+    }
+    elseif ($read(ProxyChans.txt, %i) != %x) && ($read(ProxyChans.txt, %i)) { 
+      inc %i 
+      goto loop
+    }
+  }
+  if ($did == 3) { 
+    if (!$dialog(proxychan)) { dialog -m proxychan proxychan }
+    else { beep }
+  }
+  if ($did == 5) { 
+    var %x $sfile(*.txt,Load a file,Load)
+    if (%x) {
+      var %i 1
+      while ($read(%x, %i) != $null) { 
+        write ProxyChans.txt $read(%x, %i)
+        did -a proxy 2 $read(%x, %i)
+        did -z proxy 2
+        inc %i 
+      }
+    }
+  }
+  if ($did == 6) { 
+    if ($did(6).state == 0) { did -u proxy 6 | set %proxy.scan OFF }
+    elseif ($did(6).state == 1) { did -c proxy 6 | set %proxy.scan ON }
+  }
+}
+dialog proxychan {
+  Title Add a Channel
+  size -1 -1 85 25
+  option dbu
+  text "Channel:", 1, 2 5 45 7
+  combo 2, 27 3 50 50, drop list sort edit
+  button "&Add", 3, 19 15 23 10
+  button "&Cancel", 4, 44 15 23 10, cancel
+}
+on *:dialog:proxychan:init:0: {
+  did -t proxychan 3
+  var %i 1
+  while ($chan(%i)) {
+    did -a proxychan 2 $chan(%i)
+    inc %i 
+  }
+}
+on *:dialog:proxychan:sclick:3,4: {
+  if ($did == 3) {
+    if ($did(2)) { 
+      write ProxyChans.txt $did(2)
+      if ($dialog(proxy)) { did -a proxy 2 $did(2) | dialog -v proxy proxy }
+      dialog -x proxychan proxychan
+    }
+    else { beep }
+  }
+  if ($did == 4) { 
+    if ($dialog(proxy)) { dialog -v proxy proxy }
+  }
+}

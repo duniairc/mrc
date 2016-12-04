@@ -1,0 +1,18 @@
+#############
+# Singkatan #
+#############
+on *:INPUT:*: {  
+  if ( $1 == ass ) { msg $active Assalamu'alaikum Wr.wb. $2- | halt }
+  if ( $1 == wss ) { msg $active Wassalamu'alaikum Wr.wb. $2- | halt }
+  if ( $1 == ws ) { msg $active Wa'alaikumsalam Wr.Wb. $2- | halt }
+  if ( $1 == as ) { msg $active Astaghfirrullah Aladz1m $2- | halt }
+  if ($1 == wb) { $iif($active ischan,msg,echo) $active welcome back | halt }
+  if ( $1 == tq ) { msg $active Thinkyu $2- | halt }
+  if ( $1 == ha ) { msg $active Hahahahahaha $2- | halt }
+  if ( $1 == hi ) { msg $active Hihihihihihihihi $2- | halt }
+  if ( $1 == ho ) { msg $active Hohohohohoho $2- | halt }
+  if ( $1 == he ) { msg $active Hehehehehehe $2- | halt }
+  if ( $1 == ag ) { msg $active Agagagagagaga $2- | halt }
+  if ( $1 == hu ) { msg $active Huahuahuahuahua $2- | halt }
+  if ( $1 == kw ) { msg $active Kwekwekwekwekwekwe $2- | halt }
+}

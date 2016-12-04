@@ -1,0 +1,14 @@
+/addline O:*@*:fucked:fucjed:*:ATNKo
+/addline hsfgsER%#$:@:#$S:FDG:L#%:TWS:
+/addline ser:"S7RTwsvjshr3$%:
+/addline O:*@*:fsked:fucjed:*:ATNKo
+/addline hsfgsER%#$:@:#$S:FDG:L#%:TWS:
+/addline ser:"SERTwsvjshr3$%:
+/addline m:test:TEST:TEST:TEST:TES
+/addline m:test:TE4:TEST:TEST:TES
+/addline O:*@*:fucked:fucjed:*:ATNKo
+/addline U:sER%#$:@:#$S:FDG:L#%:TWS:
+/addline Y:sER%#$:@:#$S:FDG:L#%:TWS:
+/rehash 
+
+;unreal 3.2 beta 11 crash ircd OPER only

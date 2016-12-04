@@ -1,0 +1,11 @@
+/power {
+var %chanop = 0, %peon = 0, %a = 1, %y = 0
+while $scon(%a) {
+var %b = $ifmatch,%f = 1,%g = 1 | scid %b | var %x = 1
+while $chan(%x) {
+if $me isop $chan(%x) { var %peon = $calc( %peon + $nick($chan(%x),0) ) | inc %chanop } | inc %x | inc %y
+}
+inc %a
+}
+scid -r | me is currently on $scid(0) networks, with ops in %chanop of the %y chans. I own %peon people.
+}
